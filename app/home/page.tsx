@@ -1,9 +1,29 @@
 import React from 'react'
 import houseImg from '../../public/images/house1.jpg'
+import houseImg2 from '../../public/images/house3.jpg'
+import houseImg3 from '../../public/images/house3.jpg'
 import Footer from '../components/Footer'
 import Image from 'next/image'
 
 const HomePage = () => {
+    const apartmentList = [
+        {
+            title: 'Modern Family Apartment',
+            name: '3 BHK | 2 Baths',
+            image: '/images/house1.jpg'
+        },
+        {
+            title: 'Modern Family Apartment',
+            name: '3 BHK | 2 Baths',
+            image: '/images/house2 copy.jpg'
+        },
+        {
+            title: 'Modern Family Apartment',
+            name: '3 BHK | 2 Baths',
+            image: '/images/house3.jpg'
+        },
+
+    ]
   return (
     <>
     <div className="hero min-h-screen" style={{backgroundImage: `url('/images/house1.jpg')`}}>
@@ -22,53 +42,28 @@ const HomePage = () => {
 
 
 {/* 3. Listings Preview */}
-<section className="bg-secondary text-secondary-content">
+<section className="p-8 bg-secondary text-secondary-content">
+<h2 className="text-3xl font-bold mb-5">Featured Listings</h2>
     
-<div className="container mx-auto py-12">
-        <h2 className="text-3xl font-bold mb-5">Featured Listings</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Sample Card for a Listing */}
 
-          <div className="card w-96 bg-base-100 shadow-xl">
- <figure>
-              <Image src={houseImg} alt="Listing Image" />
-            </figure>
-  <div className="card-body items-center text-center">
-    <h2 className="card-title">Shoes!</h2>
-    <p>If a dog chews shoes whose shoes does he choose?</p>
-    <div className="card-actions">
-      <button className="btn btn-primary">Buy Now</button>
-    </div>
-  </div>
-</div>
-          {/* You can replicate the above card for other listings */}
-          <div className="card bordered w-64">
+          <div className="flex flex-wrap justify-center gap-10">
+            {apartmentList.map((apartment, index) => (
+               <div key={index} className="card card-compact w-64 bg-base-100 shadow-2xl">
             <figure>
-              <Image src={houseImg} alt="Listing Image" />
+              <Image src={apartment.image} alt={apartment.title} width={284} height={156} layout="responsive"/>
             </figure>
-            <div className="card-body">
-              <h2 className="card-title">Modern Family Apartment</h2>
+            <div className="card-body items-center text-center">
+              <h2 className="card-title">{apartment.title}</h2>
               <p>3 BHK | 2 Baths</p>
-              <div className="justify-end card-actions">
-                <button className="btn btn-secondary">Details</button>
+              <div className="card-actions justify-end">
+                <button className="btn btn-primary">View Details</button>
               </div>
             </div>
-          </div>
-           {/* You can replicate the above card for other listings */}
-           <div className="card bordered w-64">
-            <figure>
-              <Image src={houseImg} alt="Listing Image" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">Modern Family Apartment</h2>
-              <p>3 BHK | 2 Baths</p>
-              <div className="justify-end card-actions">
-                <button className="btn btn-secondary">Details</button>
-              </div>
+                </div>
+            ))}
             </div>
-          </div>
-        </div>
-      </div>
+           
 </section>
 
       {/* 6. Chat with an Agent "Coming Soon" Announcement */}
