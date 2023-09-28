@@ -1,9 +1,9 @@
 import React from 'react'
 
-const page = () => {
+const HomePage = () => {
   return (
-    <div>Hello welcome to geoHomeFinder</div>
+    <div className="bg-primary">Hello welcome to geoHomeFinder</div>
   )
 }
 
-export default page
+export default HomePage

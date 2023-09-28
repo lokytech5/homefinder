@@ -9,7 +9,7 @@ const Navbar = () => {
     <div className='drawer'> 
     <input id="my-drawer-3" type="checkbox" className="drawer-toggle" /> 
     <div className="drawer-content flex flex-col">
-      <div className="navbar bg-base-100 text-secondary-content">
+      <div className="navbar bg-neutral text-primary-content">
       <div className="flex-none lg:hidden">
         <HamburgerMenu/>
     </div>
