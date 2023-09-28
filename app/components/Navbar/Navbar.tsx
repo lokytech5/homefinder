@@ -1,6 +1,8 @@
 import React from 'react'
 import HamburgerMenu from './HamburgerMenu'
 import Link from 'next/link'
+import DesktopMenu from './DesktopMenu'
+import Drawer from './Drawer'
 
 const Navbar = () => {
   return (
@@ -15,8 +17,8 @@ const Navbar = () => {
       <Link href="/home" className="btn btn-ghost normal-case text-xl">GeoHomeFinder</Link>
     </div>
          
-         {/* <ThemeToggle/>
-         <DesktopMenu/> */}
+          {/* <ThemeToggle/> */}
+         <DesktopMenu/> 
       <div className="flex-none">
           {/* <Cart/>
           <UserMenu/> */}
@@ -24,7 +26,7 @@ const Navbar = () => {
     </div>
     </div>
     
-    {/* <Drawer/> */}
+    <Drawer/>
   
     </div>
   )
