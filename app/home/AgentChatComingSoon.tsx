@@ -33,7 +33,7 @@ const AgentChatSoon = () => {
         <button className="btn btn-outline btn-primary text-primary-content">Notify Me</button>
       </div>
     </section>
-  )
+  ) 
 }
 
 export default AgentChatSoon
