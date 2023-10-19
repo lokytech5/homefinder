@@ -13,8 +13,8 @@ const HomePage = () => {
    <Hero/>
 
 <FeatureListApartment/>
-    <Faq/>
       <AgentChatSoon/>
+    <Faq/>
 
   <Footer/>
 
