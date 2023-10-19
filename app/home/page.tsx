@@ -8,25 +8,18 @@ import Hero from './Hero'
 const HomePage = () => {
     
   return (
-    <>
+    <div>
    
    <Hero/>
 
-
-{/* 3. Listings Preview */}
 <FeatureListApartment/>
-
-      {/* 6. Chat with an Agent "Coming Soon" Announcement */}
-      <AgentChatSoon/>
-      
-
-     {/* 8. FAQ Section within an artboard */}
     <Faq/>
+      <AgentChatSoon/>
 
   <Footer/>
 
 
-  </>
+  </div>
   )
 }
 
