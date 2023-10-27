@@ -25,9 +25,11 @@ export interface Apartment {
 }
 
 export interface ApartmentResponse {
-    apartment: Apartment[];
+    apartment?: Apartment[];
+    totalPages: number;
 }
 
 export interface LatestApartmentResponse {
-    apartments: Apartment[];
+    latestApartment?: Apartment[];
+    totalPages: number;
 }
