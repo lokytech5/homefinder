@@ -1,8 +1,18 @@
 import React from 'react'
+import { Apartment } from '../components/types'
 
-const ApartmentDetails = () => {
+interface Props {
+  apartment: Apartment;
+}
+
+const ApartmentDetails = ({apartment}: Props) => {
+  console.log(apartment);
+  
   return (
-    <div>i am ApartmentDetails</div>
+    <>
+    <h2>Hello</h2>
+    <h2 className="text-gray-600">{apartment.type}</h2>
+    </>
   )
 }
 

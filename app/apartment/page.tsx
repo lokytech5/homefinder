@@ -5,11 +5,19 @@ import ApartmentCard from '../components/ApartmentCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ErrorAlert from '../components/ErrorAlert'
 import useApartment from '../hooks/useApartment'
+import { useRouter } from 'next/navigation'
 
 const ApartmentPage = () => {
 
    const { data, error, isLoading, getAllApartmentsFromPages, fetchNextPage, hasNextPage, isFetchingNextPage, }   = useApartment();
    const allApartments = getAllApartmentsFromPages(data?.pages || []);
+
+
+   const router = useRouter();
+
+   const handleDetailsClick = (apartmentId: string) => {
+     router.push(`/apartment/${apartmentId}`);
+   };
 
     if(isLoading) return <LoadingSpinner/>;
     if(error) return <ErrorAlert message={error.message}/>;
@@ -26,7 +34,12 @@ const ApartmentPage = () => {
         <div className='flex flex-wrap justify-center mx-auto px-2 text-base-content'>
         {allApartments.map((apartment, index) =>(
           <div key={apartment._id} className="w-full md:w-1/2 lg:w-1/3 px-4 my-2">
-          <ApartmentCard id={apartment._id} title={apartment.type} description={apartment.description} image={apartment.images}/>
+          <ApartmentCard 
+          id={apartment._id} 
+          title={apartment.type} 
+          description={apartment.description} 
+          image={apartment.images}
+          onDetailsClick={() => handleDetailsClick(apartment._id)}/>
           </div>
         ))}
          </div>
