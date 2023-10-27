@@ -1,6 +1,8 @@
+'use client'
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react'
-
+import { useRouter } from 'next/navigation';
 interface Props {
     id: number | string;
     title: string;
@@ -9,6 +11,12 @@ interface Props {
 }
 
 const ApartmentCard = (apartment: Props) => {
+  
+  const router = useRouter();
+  const handleApartmentClick = () => {
+
+    router.push(`/apartment/${apartment.id}`)
+  }
   return (
     <div className="flex flex-wrap justify-center gap-10">
                
@@ -20,7 +28,7 @@ const ApartmentCard = (apartment: Props) => {
                   <h2 className="card-title">{apartment.title}</h2>
                   <p>{apartment.description}</p>
                   <div className="card-actions justify-end">
-                    <button className="btn btn-primary">View Details</button>
+                    <button onClick={handleApartmentClick} className="btn btn-primary">View Details</button>
                   </div>
                 </div>
                     </div>

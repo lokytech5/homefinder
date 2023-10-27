@@ -5,30 +5,35 @@ import ApartmentCard from '../components/ApartmentCard'
 const ApartmentPage = () => {
 
     const apartmentList = [
+      {
+          title: 'Modern Family Apartment',
+          description: '3 BHK | 2 Baths',
+          image: '/images/house2.jpg'
+      },
+      {
+          title: 'Modern Family Apartment',
+          description: '3 BHK | 2 Baths',
+          image: '/images/house7.jpg'
+      },
         {
             title: 'Modern Family Apartment',
             description: '3 BHK | 2 Baths',
-            image: '/images/house1.jpg'
+            image: '/images/house6.jpg'
         },
         {
             title: 'Modern Family Apartment',
             description: '3 BHK | 2 Baths',
-            image: '/images/house2 copy.jpg'
+            image: '/images/house4.jpg'
         },
         {
             title: 'Modern Family Apartment',
             description: '3 BHK | 2 Baths',
-            image: '/images/house3.jpg'
+            image: '/images/house5.jpg'
         },
         {
             title: 'Modern Family Apartment',
             description: '3 BHK | 2 Baths',
-            image: '/images/house3.jpg'
-        },
-        {
-            title: 'Modern Family Apartment',
-            description: '3 BHK | 2 Baths',
-            image: '/images/house3.jpg'
+            image: '/images/house6.jpg'
         },
 
     ]

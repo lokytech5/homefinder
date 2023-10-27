@@ -6,6 +6,7 @@ const DesktopMenu = () => {
     <div className="hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
       <li><Link href="/apartment">Apartment</Link></li>
+      <li><Link href="/login">Login</Link></li>
       
     </ul>
 
