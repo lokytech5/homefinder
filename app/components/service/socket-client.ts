@@ -14,4 +14,4 @@ const socketClient = () => {
     })
 }
 
-export default socketClient
+export default socketClient;
