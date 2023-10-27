@@ -1,5 +1,5 @@
 import apiClient from '../components/service/api-client'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { Apartment, ApartmentResponse, LatestApartmentResponse } from '../components/types';
 
 interface Props {

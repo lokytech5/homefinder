@@ -1,19 +1,15 @@
 "use client"
 import React from 'react'
-import Image from 'next/image'
 import ApartmentCard from '../components/ApartmentCard'
 import useApartment from '../hooks/useApartment';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
 const FeatureListApartment = () => {
   const { data, error, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, getLatestApartmentsFromPages } = useApartment({ endpoint: '/apartment/latest' });
+  const latestApartments = getLatestApartmentsFromPages(data?.pages || []);
    
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorAlert message={error.message} />;
-
-   // Extracting apartments based on the response type
-   const latestApartments = getLatestApartmentsFromPages(data?.pages || []);
-   console.log(latestApartments);
 
   return (
     <section className="p-10 bg-secondary text-secondary-content">

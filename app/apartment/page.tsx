@@ -10,7 +10,6 @@ const ApartmentPage = () => {
 
    const { data, error, isLoading, getAllApartmentsFromPages, fetchNextPage, hasNextPage, isFetchingNextPage, }   = useApartment();
    const allApartments = getAllApartmentsFromPages(data?.pages || []);
-   
 
     if(isLoading) return <LoadingSpinner/>;
     if(error) return <ErrorAlert message={error.message}/>;
