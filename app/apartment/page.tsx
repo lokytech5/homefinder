@@ -25,17 +25,6 @@ const ApartmentPage = () => {
             description: '3 BHK | 2 Baths',
             image: '/images/house4.jpg'
         },
-        {
-            title: 'Modern Family Apartment',
-            description: '3 BHK | 2 Baths',
-            image: '/images/house5.jpg'
-        },
-        {
-            title: 'Modern Family Apartment',
-            description: '3 BHK | 2 Baths',
-            image: '/images/house6.jpg'
-        },
-
     ]
 
   return (
