@@ -11,14 +11,14 @@ interface Props {
 
 const ApartmentDetailsPage = ({ params: {apartmentId}}: Props) => {
 
-  const id: string | undefined = apartmentId as string;
-
   const { data, error, isLoading } = useApartmentDetails({ apartmentId})
 
   if(isLoading) return <LoadingSpinner/>;
     if(error) return <ErrorAlert message={error.message}/>;
+
+    console.log(data);
     
-  return <ApartmentDetails apartment={data}/>;
+  return <ApartmentDetails apartment={data?.apartment}/>;
 }
 
 export default ApartmentDetailsPage

@@ -33,3 +33,7 @@ export interface LatestApartmentResponse {
     latestApartment?: Apartment[];
     totalPages: number;
 }
+
+export interface SingleApartmentResponse {
+    apartment: Apartment;
+}

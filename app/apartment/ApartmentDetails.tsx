@@ -6,12 +6,12 @@ interface Props {
 }
 
 const ApartmentDetails = ({apartment}: Props) => {
-  console.log(apartment);
+
   
   return (
     <>
     <h2>Hello</h2>
-    <h2 className="text-gray-600">{apartment.type}</h2>
+    <h2>{apartment.type}</h2>
     </>
   )
 }

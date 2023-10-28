@@ -1,4 +1,4 @@
-import { Apartment } from '../components/types';
+import { Apartment, SingleApartmentResponse } from '../components/types';
 import apiClient from '../components/service/api-client';
 import { useQuery } from '@tanstack/react-query';
 
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const useApartmentDetails = ({ apartmentId }: Props) => {
-   const fetchApartmentDetails = (): Promise<Apartment> => {
+   const fetchApartmentDetails = (): Promise<SingleApartmentResponse> => {
     if(!apartmentId) return Promise.reject(new Error("Apartment Id is undefined"));
   
     return apiClient.get(`/apartment/${apartmentId}`)
@@ -15,7 +15,7 @@ const useApartmentDetails = ({ apartmentId }: Props) => {
                         return res.data;
                     })
 }
-     return useQuery<Apartment, Error>(['apartment', apartmentId], fetchApartmentDetails);
+     return useQuery<SingleApartmentResponse, Error>(['apartment', apartmentId], fetchApartmentDetails);
 
     
 }
