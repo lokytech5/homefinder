@@ -6,12 +6,20 @@ import LoadingSpinner from '../components/LoadingSpinner'
 import ErrorAlert from '../components/ErrorAlert'
 import useApartment from '../hooks/useApartment'
 import { useRouter } from 'next/navigation'
+import useSearchStore from '../components/store/useSearchStore'
+import useSearchApartment from '../hooks/useSearchApartment'
 
 const ApartmentPage = () => {
+  const { searchParams } = useSearchStore();
+  const { data:searchData, isLoading:searchLoading, error: searchError } = useSearchApartment(searchParams);
+  const { data, error, 
+    isLoading, getAllApartmentsFromPages, 
+    fetchNextPage, hasNextPage, isFetchingNextPage, } = useApartment();
 
-   const { data, error, isLoading, getAllApartmentsFromPages, fetchNextPage, hasNextPage, isFetchingNextPage, }   = useApartment();
-   const allApartments = getAllApartmentsFromPages(data?.pages || []);
-
+    const allApartments = searchParams.city || searchParams.bedrooms || searchParams.type ? (searchData?.apartment || []) : getAllApartmentsFromPages(data?.pages || []);
+    const isDataLoading = searchParams.city || searchParams.bedrooms || searchParams.type ? searchLoading : isLoading;
+    const dataError = searchParams.city || searchParams.bedrooms || searchParams.type ? searchError : error;
+  
 
    const router = useRouter();
 
@@ -19,8 +27,8 @@ const ApartmentPage = () => {
      router.push(`/apartment/${apartmentId}`);
    };
 
-    if(isLoading) return <LoadingSpinner/>;
-    if(error) return <ErrorAlert message={error.message}/>;
+    if(isDataLoading) return <LoadingSpinner/>;
+    if(dataError) return <ErrorAlert message={dataError.message}/>;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -49,7 +57,7 @@ const ApartmentPage = () => {
           disabled={!hasNextPage || isFetchingNextPage}
           className="btn btn-secondary"
         >
-          {isFetchingNextPage ? 'Loading more...' : hasNextPage ? 'Load More' : 'No more products'}
+          {isFetchingNextPage ? 'Loading more...' : hasNextPage ? 'Load More' : 'No more apartments'}
         </button>
       </div>
          

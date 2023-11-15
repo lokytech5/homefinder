@@ -37,3 +37,14 @@ export interface LatestApartmentResponse {
 export interface SingleApartmentResponse {
     apartment: Apartment;
 }
+
+export interface SearchResponse {
+    apartment: Apartment[];
+}
+
+export interface SearchParams {
+    city?: string;
+    bedrooms?: number;
+    type?: string;
+  }
+  
