@@ -8,18 +8,36 @@ import useApartment from '../hooks/useApartment'
 import { useRouter } from 'next/navigation'
 import useSearchStore from '../components/store/useSearchStore'
 import useSearchApartment from '../hooks/useSearchApartment'
+import useSortApartment from '../hooks/useSortApartment'
 
 const ApartmentPage = () => {
-  const { searchParams } = useSearchStore();
+  const { searchParams, sortParams } = useSearchStore();
   const { data:searchData, isLoading:searchLoading, error: searchError } = useSearchApartment(searchParams);
+  const { data: sortedData, isLoading: sortedLoading, error: sortedError } = useSortApartment(sortParams);
+
+    
   const { data, error, 
     isLoading, getAllApartmentsFromPages, 
     fetchNextPage, hasNextPage, isFetchingNextPage, } = useApartment();
 
-    const allApartments = searchParams.city || searchParams.bedrooms || searchParams.type ? (searchData?.apartment || []) : getAllApartmentsFromPages(data?.pages || []);
-    const isDataLoading = searchParams.city || searchParams.bedrooms || searchParams.type ? searchLoading : isLoading;
-    const dataError = searchParams.city || searchParams.bedrooms || searchParams.type ? searchError : error;
+    // const allApartments = searchParams.city || searchParams.bedrooms || searchParams.type ? (searchData?.apartment || []) : getAllApartmentsFromPages(data?.pages || []);
+    // const isDataLoading = searchParams.city || searchParams.bedrooms || searchParams.type ? searchLoading : isLoading;
+    // const dataError = searchParams.city || searchParams.bedrooms || searchParams.type ? searchError : error;
   
+    let displayedApartments;
+    if (sortParams.sortOrder) {
+        displayedApartments = sortedData?.apartments || [];
+    } else if (searchParams.city || searchParams.bedrooms || searchParams.type) {
+        displayedApartments = searchData?.apartment || [];
+    } else {
+        displayedApartments = getAllApartmentsFromPages(data?.pages || []);
+    }
+
+    const isCurrentLoading = searchLoading || sortedLoading || isLoading;
+const currentError = searchError || sortedError || error;
+  
+    
+    
 
    const router = useRouter();
 
@@ -27,8 +45,9 @@ const ApartmentPage = () => {
      router.push(`/apartment/${apartmentId}`);
    };
 
-    if(isDataLoading) return <LoadingSpinner/>;
-    if(dataError) return <ErrorAlert message={dataError.message}/>;
+   if (isCurrentLoading) return <LoadingSpinner/>;
+if (currentError) return <ErrorAlert message={currentError.message}/>;
+
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -40,7 +59,7 @@ const ApartmentPage = () => {
   
       <div className="flex-grow p-4 space-y-4">
         <div className='flex flex-wrap justify-center mx-auto px-2 text-base-content'>
-        {allApartments.map((apartment, index) =>(
+        {displayedApartments.map((apartment, index) =>(
           <div key={apartment._id} className="w-full md:w-1/2 lg:w-1/3 px-4 my-2">
           <ApartmentCard 
           id={apartment._id} 

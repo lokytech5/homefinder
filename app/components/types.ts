@@ -46,5 +46,14 @@ export interface SearchParams {
     city?: string;
     bedrooms?: number;
     type?: string;
+    sortOrder?: 'asc' | 'desc';
   }
+
+export interface SortParams {
+    sortOrder?: 'asc' | 'desc';
+}
+
+export interface SortResponse {
+    apartments: Apartment[];
+}
   

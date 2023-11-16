@@ -1,17 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useSearchStore from '../components/store/useSearchStore'
 import { FaInfoCircle } from 'react-icons/fa';
 
 const FilterApartment = () => {
     const { setSearchParams } = useSearchStore();
+    const { setSortParams } = useSearchStore();
     
     const [city, setCity] = useState('');
     const [bedrooms, setBedrooms] = useState<number | undefined>();
     const [type, setType] = useState('');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | ''>('');
 
     const handleSearch = () => {
-        setSearchParams({ city, bedrooms, type });
+        setSearchParams({ city, bedrooms, type });    
     }
+
+    function isSortOrder(value: string): value is 'asc' | 'desc' {
+        return ['asc', 'desc'].includes(value);
+    }
+
+    const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = e.target.value;
+
+        if (isSortOrder(value)) {
+            setSortOrder(value);
+            setSortParams({ sortOrder: value })
+        } else {
+            setSortOrder('');
+            setSortParams({});
+        }
+    };
+
+    const handleResetFilters = () => {
+        setCity('');
+        setBedrooms(undefined);
+        setType('');
+        setSortOrder('');
+        setSortParams({});
+        setSearchParams({});
+    };
+    
 
     return (
     <div className="w-full mt-2 p-4 space-y-4 lg:w-1/4">
@@ -27,7 +55,7 @@ const FilterApartment = () => {
     <div className="space-y-2">
         <input 
             type="text" 
-            value={city}
+            value={city || ''}
             onChange={(e) => setCity(e.target.value)}
             placeholder="City name" 
             className="input input-bordered input-accent w-full" 
@@ -36,7 +64,7 @@ const FilterApartment = () => {
          {/* Bedrooms Input */}
          <input 
                         type="number" 
-                        value={bedrooms}
+                        value={bedrooms || ''}
                         onChange={(e) => setBedrooms(Number(e.target.value))}
                         placeholder="Bedrooms" 
                         className="input input-bordered input-accent w-full" 
@@ -45,7 +73,7 @@ const FilterApartment = () => {
         {/* Type Input */}
         <input 
                         type="text" 
-                        value={type}
+                        value={type || ''}
                         onChange={(e) => setType(e.target.value)}
                         placeholder="Type" 
                         className="input input-bordered input-accent w-full" 
@@ -72,7 +100,9 @@ const FilterApartment = () => {
             <span className="text-md">Sort by Price</span>
         </label>
 
-        <select className="select select-bordered w-full mt-2 text-secondary-content">
+        <select className="select select-bordered w-full mt-2 text-secondary-content"
+                value={sortOrder}
+                onChange={handleSortOrderChange}>
             <option value=''>Select Order</option>
             <option value='asc'>Low to High</option>
             <option value='desc'>High to Low</option>
@@ -80,7 +110,7 @@ const FilterApartment = () => {
     </div>
 
     <div className="w-full max-w-xs">
-        <button className="btn btn-secondary w-full">Reset All Filters</button>
+        <button className="btn btn-secondary w-full" onClick={handleResetFilters}>Reset All Filters</button>
     </div>
 </div>
     
