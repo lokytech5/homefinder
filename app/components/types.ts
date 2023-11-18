@@ -61,7 +61,7 @@ export interface RegisterUserData {
     username: string;
     password: string;
     email: string;
-    userType: "User" | "Agent"
+    userType: "User"
 }
 
 export interface RegisterUserResponse {
@@ -83,7 +83,7 @@ export interface RegisterAgentData {
     username: string;
     password: string;
     email: string;
-    userType: "User" | "Agent"
+    userType: "Agent";
     phone: string;
     agencyName: string;
     address: string;

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { RegisterAgentData, RegisterAgentResponse, RegisterUserData } from "../types";
 
 
 interface User {
@@ -18,7 +19,8 @@ interface UserState {
     isEmailVerified: boolean;
     isAuthenticated: boolean;
     error: string | null;
-    setUser: (user: User) => void;
+    setUser: (userData: RegisterUserData, userId: string) => void;
+    setAgent: (userData: RegisterAgentData, agentId: string) => void;
     setIsPhoneVerified: (isPhoneVerified: boolean) => void;
     setIsEmailVerified: (isEmailVerified: boolean) => void;
     setError: (error: string) => void;
@@ -31,13 +33,43 @@ const useUserStore = create<UserState>((set) => ({
     isEmailVerified: false,
     isAuthenticated: false,
     error: null,
-    setUser: (user) => set((state) => ({
-        user,
-        isAuthenticated: !!user,
-        isPhoneVerified: state.isPhoneVerified,
-        isEmailVerified: state.isEmailVerified,
-        error: state.error
-    })),
+    
+    setUser:(userData: RegisterUserData, userId: string) => {
+        const user: User = {
+            _id: userId,
+            username: userData.username,
+            email: userData.email,
+            userType: "User",
+            // Set other user-specific fields or defaults
+        };
+        set({ 
+            user, 
+            isAuthenticated: true, // Assuming user is authenticated after registration
+            isPhoneVerified: false, // Set based on your app's logic
+            isEmailVerified: false, // Set based on your app's logic
+            error: null 
+        });
+    },
+
+    setAgent :  (agentData: RegisterAgentData, agentId: string)=> {
+        const user: User = {
+            _id: agentId,
+            username: agentData.username,
+            email: agentData.email,
+            userType: "Agent",
+            phone: agentData.phone,
+            agencyName: agentData.agencyName,
+            address: agentData.address,
+            age: agentData.age
+        };
+        set({ 
+            user, 
+            isAuthenticated: true, // Assuming agent is authenticated after registration
+            isPhoneVerified: false, // Set based on your app's logic
+            isEmailVerified: false, // Set based on your app's logic
+            error: null 
+        });
+    },
     setIsPhoneVerified: (isPhoneVerified) => set({ isPhoneVerified }),
     setIsEmailVerified: (isEmailVerified) => set({ isEmailVerified }),
     setError: (error) => set({ error }),

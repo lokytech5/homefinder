@@ -11,7 +11,6 @@ interface FormData {
   agencyName?: string;
   address?: string;
   age?: number;
-  [key: string]: string | number | undefined;
 }
 
 
