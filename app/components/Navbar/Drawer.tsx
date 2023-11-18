@@ -8,7 +8,7 @@ const Drawer = () => {
     <ul className="menu p-4 w-80 min-h-full bg-neutral text-primary-content">
       {/* Sidebar content here */}
       <li><Link href="/apartment">Apartment</Link></li>
-      <li><Link href="/login">login</Link></li>
+      <li><Link href="/registerUser">Register</Link></li>
       
     </ul>
     

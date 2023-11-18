@@ -56,4 +56,54 @@ export interface SortParams {
 export interface SortResponse {
     apartments: Apartment[];
 }
+
+export interface RegisterUserData {
+    username: string;
+    password: string;
+    email: string;
+    userType: "User" | "Agent"
+}
+
+export interface RegisterUserResponse {
+    _id: string;
+    username: string;
+    email: string;
+    isAdmin: boolean;
+}
+
+export interface VerifyUserRequest {
+    token: string;
+}
+
+export interface VerifyUserResponse {
+    message: string;
+}
+
+export interface RegisterAgentData {
+    username: string;
+    password: string;
+    email: string;
+    userType: "User" | "Agent"
+    phone: string;
+    agencyName: string;
+    address: string;
+    age: number;
+}
+
+export interface RegisterAgentResponse {
+    message: string;
+    agentId: string;
+}
+
+export interface VerifyAgentRequest {
+    code: number;
+    agentId: string;
+}
+
+export interface VerifyAgentResponse {
+    _id: string;
+    username: string;
+    email: string;
+    isAdmin: boolean;
+}
   
