@@ -1,26 +1,128 @@
 "use client"
 import Image from 'next/image';
 import hose1 from '../../public/images/house1.jpg'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { z } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import useRegisterUser from '../hooks/useRegisterUser';
+import useRegisterAgent from '../hooks/useRegisterAgent';
+import { RegisterAgentData, RegisterUserData } from '../components/types';
+import { showToast } from '../components/ToastNotifier';
+import VerificationModal from '../components/VerificationModal';
+import { useRouter } from 'next/navigation';
+import ErrorAlert from '../components/ErrorAlert';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 interface FormData {
-  username?: string;
-  email?: string;
-  password?: string;
+  username: string;
+  email: string;
+  password: string;
   phone?: string;
   agencyName?: string;
-  address?: string;
-  age?: number;
+  address?:string;
+  age?:number;
 }
+
+const userSchema = z.object({
+  username: z.string().min(1, 'Username is required'),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(5, 'Password must be at least 6 characters'),
+});
+  
+const agentSchema = z.object({
+   // Include other fields as needed
+   username: z.string().min(1, 'Username is required'),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(5, 'Password must be at least 6 characters'),
+   phone: z.string().min(1, 'Phone number is required'),
+   agencyName: z.string().min(1, 'Agency name is required'),
+   address: z.string().min(1, 'Address is required'),
+   age: z.string()
+   .transform((val) => parseInt(val, 10))
+   .refine((val) => !isNaN(val) && val >= 18, 'You must be at least 18 years old'),
+});
 
 
 const RegisterPage = () => {
   const [userType, setUserType] = useState<'User' | 'Agent'>('User');
-  // const [formData, setFormData] = useState<FormData>({});
+  const [currentSchema, setCurrentSchema] = useState(userSchema);
+  const { mutate: registerUser, isLoading: userLoading, error: userError } = useRegisterUser();
+  const { mutate: registerAgent, isLoading: agentLoading, error: agentError } = useRegisterAgent();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    
+  useEffect(() => {
+    setCurrentSchema(userType === 'User' ? userSchema : agentSchema);
+  }, [userType]);
+
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    resolver: zodResolver(currentSchema),
+  });
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [verificationType, setVerificationType] = useState<'email' | 'phone'>('email');
+
+  const isLoading = userLoading || agentLoading;
+  const errorMessage = userType === 'User' ? userError?.message : agentError?.message;
+
+  const router = useRouter();
+
+  if (isLoading) return <LoadingSpinner />;
+  if (errorMessage) return <ErrorAlert message={errorMessage} />;
+
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+   
+   try{
+
+  if (userType === 'User') {
+    const userData: RegisterUserData = {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      userType:"User"
+    }
+   registerUser(userData, {
+    onSuccess: () => {
+      showToast('Registeration successful', 'success');
+      setShowVerificationModal(true);
+      setVerificationType('email');
+    }
+   });
+  } else if (userType === 'Agent') {
+    const agentData: RegisterAgentData = {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      userType: "Agent",
+      phone: data.phone || '',
+      agencyName: data.agencyName || '',
+      address: data.address || '',
+      age: data.age || 0,
+    };
+    registerAgent(agentData, {
+      onSuccess: () => {
+        showToast('Registration successful', 'success');
+        setShowVerificationModal(true);
+        setVerificationType('phone');
+      }
+    });
+  }
+} catch (e) {
+  if(e instanceof Error) {
+    showToast('Registration failed: ' + e.message, 'error');
+}  else {
+    showToast('Registration failed: An unexpected error occurred', 'error');
+}
+}
   };
+
+  const handleCloseModal = () => {
+    setShowVerificationModal(false);
+    if (userType === 'User') {
+      router.push("/loginUser");
+    } else if (userType === 'Agent') {
+      router.push("/verifyAgent");
+    }
+  }
   
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -45,69 +147,88 @@ const RegisterPage = () => {
               Agent
             </a>
           </div>
-      <form className="space-y-4">
-      <input 
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="space-y-4 text-secondary-content"> 
+
+           
+            <input 
+            {...register("username")}
                 name="username"
                 className="input input-bordered w-full" 
                 type="text" 
                 placeholder="Username"
-                onChange={handleChange}
               />
+              {errors.username && <p>{errors.username.message}</p>}
+
               <input 
+                {...register("email")}
                 name="email"
                 className="input input-bordered w-full" 
                 type="email" 
                 placeholder="Email"
-                onChange={handleChange}
               />
-              <input 
+              {errors.email && <p>{errors.email.message}</p>}
+
+              <input
+               {...register("password")} 
                 name="password"
                 className="input input-bordered w-full" 
                 type="password" 
                 placeholder="Password"
-                onChange={handleChange}
               />
+              {errors.password && <p>{errors.password.message}</p>}
               
         {userType === 'Agent' && (
             <>
               <input 
+              {...register("phone")} 
                     name="phone"
                     className="input input-bordered w-full" 
                     type="text" 
                     placeholder="Phone Number"
-                    onChange={handleChange}
                   />
+                  {errors.phone && <p>{errors.phone.message}</p>}
+
                   <input 
+                    {...register("agencyName")} 
                     name="agencyName"
                     className="input input-bordered w-full" 
                     type="text" 
                     placeholder="Agency Name"
-                    onChange={handleChange}
                   />
+                   {errors.agencyName && <p>{errors.agencyName.message}</p>}
+
                   <input 
+                   {...register("address")} 
                     name="address"
                     className="input input-bordered w-full" 
                     type="text" 
                     placeholder="Address"
-                    onChange={handleChange}
                   />
+                  {errors.address && <p>{errors.address.message}</p>}
+
                   <input 
+                   {...register("age")} 
                     name="age"
                     className="input input-bordered w-full" 
                     type="number" 
                     placeholder="Age"
-                    onChange={handleChange}
                   />
+                   {errors.age && <p>{errors.age.message}</p>}
 
             </>
           )}
-        <button className="btn btn-primary w-full">Create an Account</button>
-      </form>
+        <button type='submit' className="btn btn-primary w-full">Create an Account</button>
+        </div>
       <div className="text-center">
         <a href="#" className="link link-secondary">Already have an account? Log In</a>
       </div>
+      </form>
       </div>
     </div>
+    <VerificationModal
+        isOpen={showVerificationModal}
+        onClose={handleCloseModal} verificationType={verificationType}/>
   </div>
 );
   

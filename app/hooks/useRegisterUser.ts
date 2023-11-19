@@ -16,17 +16,22 @@ const useRegisterUser = (): UseMutationResult<RegisterUserResponse, AxiosError<E
     const setUser = useUserStore((state) => state.setUser);
     const setError = useUserStore((state) => state.setError);
 
-    return useMutation<RegisterUserResponse, AxiosError<ErrorResponse>, RegisterUserData>(
+    return useMutation<RegisterUserResponse, AxiosError<ErrorResponse>, RegisterUserData, RegisterUserData>(
       (userData: RegisterUserData) => {
         return apiClient.post<RegisterUserResponse>('/user', userData)
           .then(response => response.data);
       },
       {
-        onSuccess: (data) => {
-        //   setUser(userData, data._id);
+        onMutate: (userData) => {
+          // Return userData as context for use in onSuccess
+          return userData;
+        },
+        onSuccess: (data, context) => {
+          // Use context here which is the userData
+          setUser(context, data._id);
           console.log('Registration successful:', data);
         },
-        onError: (error: AxiosError<ErrorResponse>) => {
+        onError: (error: AxiosError<ErrorResponse>, context) => {
             let errorMessage: string = error.message; // Default message
             if (error.response && error.response.data) {
                 if (error.response.data.error) {
@@ -39,11 +44,10 @@ const useRegisterUser = (): UseMutationResult<RegisterUserResponse, AxiosError<E
                     errorMessage = error.response.data.errors.map(e => e.msg).join(', ');
                 }
             }
-                setError(errorMessage);
-                console.error('Registration failed:', errorMessage);
-            },
+            setError(errorMessage);
+            console.error('Registration failed:', errorMessage);
+        },
       }
     );
-  };
-
+};
 export default useRegisterUser

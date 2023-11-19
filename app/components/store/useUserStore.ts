@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { RegisterAgentData, RegisterAgentResponse, RegisterUserData } from "../types";
 
-
 interface User {
     _id?: string;
     username: string;
@@ -64,9 +63,9 @@ const useUserStore = create<UserState>((set) => ({
         };
         set({ 
             user, 
-            isAuthenticated: true, // Assuming agent is authenticated after registration
-            isPhoneVerified: false, // Set based on your app's logic
-            isEmailVerified: false, // Set based on your app's logic
+            isAuthenticated: true,
+            isPhoneVerified: false, 
+            isEmailVerified: false, 
             error: null 
         });
     },

@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 import apiClient from "../components/service/api-client";
 
 interface ErrorResponse {
-    error?: string;
+  error?: string;
   msg?: string;
   message?: string;
   errors?: { msg: string }[]; 
@@ -16,16 +16,19 @@ const useRegisterAgent = (): UseMutationResult<RegisterAgentResponse, AxiosError
     const setError = useUserStore((state) => state.setError);
     return useMutation<RegisterAgentResponse, AxiosError<ErrorResponse>, RegisterAgentData>(
         (userData: RegisterAgentData) => {
-          return apiClient.post<RegisterAgentResponse>('/users/', userData)
+          return apiClient.post<RegisterAgentResponse>('/agent', userData)
             .then(response => response.data);
-        },
-        {
-          onSuccess: (response) => {
-            // setAgent(RegisterAgentData, response.agentId);
-            console.log('Registration successful:', response);
           },
+          {
+            onMutate: (userData) => {
+              return userData;
+            },
+            onSuccess: (response, context) => {
+              setAgent(context, response.agentId);
+              console.log('Registration successful:', response);
+            },
           onError: (error: AxiosError<ErrorResponse>) => {
-            let errorMessage: string = error.message; // Default message
+            let errorMessage: string = error.message;
             if (error.response && error.response.data) {
                 if (error.response.data.error) {
                     errorMessage = error.response.data.error;
