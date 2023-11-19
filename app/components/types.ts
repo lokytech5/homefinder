@@ -20,7 +20,7 @@ export interface Apartment {
     petPolicy: string;
     amenities: string[];
     createdAt: string;
-    reviews: any[]; // You can refine this type if you know the exact structure of a review
+    reviews: any[];
     __v: number;
 }
 
