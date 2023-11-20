@@ -4,6 +4,7 @@ import { LoginUserData, LoginUserResponse } from '../components/types';
 import { AxiosError } from 'axios';
 import apiClient from '../components/service/api-client';
 import useUserStore from '../components/store/useUserStore';
+import { showToast } from '../components/ToastNotifier';
 
 interface LoginErrorResponse {
     error?: string;
@@ -42,7 +43,7 @@ const useLoginUser = () => {
         const errorMessage = error.response?.data?.errors 
         ? error.response.data.errors.map(e => e.msg).join(', ')
         : error.response?.data?.error ?? 'An unexpected error occurred';
-        console.error('Login failed:', errorMessage);   
+        showToast('Login failed', 'error');  
         },
         }
       );

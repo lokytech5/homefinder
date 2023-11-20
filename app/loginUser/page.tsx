@@ -1,6 +1,6 @@
 "use client"
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react'
+import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import useLoginUser from '../hooks/useLoginUser';
@@ -25,8 +25,7 @@ const LoginUserPage = () => {
   });
 
   const { mutate: loginUser, isLoading, error } = useLoginUser();
-  const setUserFromLogin = useUserStore((state) => state.setUserFromLogin);
-  const setAgentFromLogin = useUserStore((state) => state.setAgentFromLogin);
+  const [loginError, setLoginError] = useState('');
   const router = useRouter();
 
   const onSubmit: SubmitHandler<FormData> = (data, event) => {
@@ -65,7 +64,7 @@ const LoginUserPage = () => {
             </div>
     
             <div>
-                <h2 className="text-3xl font-semibold mb-4 text-secondary-content  md:ml-8 sm:ml-4">Login to TutiHairs</h2>
+                <h2 className="text-3xl font-semibold mb-4 text-secondary-content  md:ml-8 sm:ml-4">Login to GeoHomeFinder</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full lg:w-1/2 p-8 space-y-5">
                 <div className="space-y-4 text-secondary-content">
                     <input
