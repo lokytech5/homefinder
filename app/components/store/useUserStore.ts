@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { RegisterAgentData, RegisterAgentResponse, RegisterUserData } from "../types";
+import { LoginUserResponse, RegisterAgentData, RegisterAgentResponse, RegisterUserData } from "../types";
 
 interface User {
     _id?: string;
@@ -20,6 +20,8 @@ interface UserState {
     error: string | null;
     setUser: (userData: RegisterUserData, userId: string) => void;
     setAgent: (userData: RegisterAgentData, agentId: string) => void;
+    setUserFromLogin: (userData: LoginUserResponse) => void;
+    setAgentFromLogin: (userData: LoginUserResponse) => void;
     setIsPhoneVerified: (isPhoneVerified: boolean) => void;
     setIsEmailVerified: (isEmailVerified: boolean) => void;
     setError: (error: string) => void;
@@ -39,7 +41,6 @@ const useUserStore = create<UserState>((set) => ({
             username: userData.username,
             email: userData.email,
             userType: "User",
-            // Set other user-specific fields or defaults
         };
         set({ 
             user, 
@@ -67,6 +68,36 @@ const useUserStore = create<UserState>((set) => ({
             isPhoneVerified: false, 
             isEmailVerified: false, 
             error: null 
+        });
+    },
+
+     // New methods for login
+     setUserFromLogin: (userData: LoginUserResponse) => {
+        const user: User = {
+            _id: userData._id,
+            username: userData.username,
+            email: userData.email,
+            userType: userData.userType,
+            // Other fields are not available in login response
+        };
+        set({ 
+            user, 
+            isAuthenticated: true,
+            // other properties as needed
+        });
+    },
+    setAgentFromLogin: (userData: LoginUserResponse) => {
+        const user: User = {
+            _id: userData._id,
+            username: userData.username,
+            email: userData.email,
+            userType: userData.userType,
+            // Other fields are not available in login response
+        };
+        set({ 
+            user,
+            isAuthenticated: true,
+            // other properties as needed
         });
     },
     setIsPhoneVerified: (isPhoneVerified) => set({ isPhoneVerified }),

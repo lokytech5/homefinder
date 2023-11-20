@@ -106,4 +106,16 @@ export interface VerifyAgentResponse {
     email: string;
     isAdmin: boolean;
 }
-  
+
+export interface LoginUserData {
+    username: string;
+    password: string;
+}
+
+export interface LoginUserResponse {
+    _id: string;
+    username: string;
+    email: string;
+    userType: "User" | "Agent";
+    token: string;
+}
