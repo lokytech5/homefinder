@@ -20,8 +20,8 @@ interface UserState {
     error: string | null;
     setUser: (userData: RegisterUserData, userId: string) => void;
     setAgent: (userData: RegisterAgentData, agentId: string) => void;
-    setUserFromLogin: (userData: LoginUserResponse) => void;
-    setAgentFromLogin: (userData: LoginUserResponse) => void;
+    setUserFromLogin: (userData: Omit<LoginUserResponse, 'token'>) => void;
+    setAgentFromLogin: (userData: Omit<LoginUserResponse, 'token'>) => void;
     setIsPhoneVerified: (isPhoneVerified: boolean) => void;
     setIsEmailVerified: (isEmailVerified: boolean) => void;
     setError: (error: string) => void;
@@ -72,7 +72,7 @@ const useUserStore = create<UserState>((set) => ({
     },
 
      // New methods for login
-     setUserFromLogin: (userData: LoginUserResponse) => {
+     setUserFromLogin: (userData: Omit<LoginUserResponse, 'token'>) => {
         const user: User = {
             _id: userData._id,
             username: userData.username,
@@ -86,7 +86,7 @@ const useUserStore = create<UserState>((set) => ({
             // other properties as needed
         });
     },
-    setAgentFromLogin: (userData: LoginUserResponse) => {
+    setAgentFromLogin: (userData: Omit<LoginUserResponse, 'token'>) => {
         const user: User = {
             _id: userData._id,
             username: userData.username,

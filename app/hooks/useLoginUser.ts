@@ -23,10 +23,17 @@ const useLoginUser = () => {
 
         localStorage.setItem('token', data.token);
 
+        const commonUserInfo = {
+          _id:data._id,
+          username: data.username,
+          email: data.email,
+          userType: data.userType
+        };
+
         if (data.userType === "User") {
-            setUserFromLogin(data);
+            setUserFromLogin(commonUserInfo);
         } else if (data.userType === "Agent") {
-            setAgentFromLogin(data);
+            setAgentFromLogin(commonUserInfo);
         }
 
           },
