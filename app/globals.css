@@ -18,13 +18,128 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
-    )
+    ) */
 }
 
 .no-underline a {
   text-decoration: none;
+}
+
+.container {
+  max-width: 90vw;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  background: white;
+}
+
+.close-button {
+  font-size: 1.5em;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.carousel-container {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-nav {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.nav-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background-color: #f5f5f5;
+}
+
+.info-section, .grid-container, .map-container {
+  margin-top: 20px;
+}
+
+.info-card, .amenities {
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* Stack the info cards on smaller screens */
+  }
+
+  .carousel-item img {
+    height: auto; /* Adjust image height for smaller screens */
+  }
+}
+
+.info-section h3, .amenities h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.info-section p, .info-card p {
+  margin-bottom: 5px;
+}
+
+.map-container {
+  height: 300px; /* Adjust the map height */
+  position: relative;
+}
+
+/* Enhance visual hierarchy */
+h3 {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Additional Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+}
+
+ul {
+  list-style: inside;
+}
+
+.amenities ul {
+  padding: 0;
+}
+
+.amenities li {
+  margin-bottom: 5px;
+}
+
+/* Enhance Close Button */
+.close-button:hover, .close-button:focus {
+  background-color: #e6e6e6;
+  cursor: pointer;
+}
+
+/* Carousel Navigation Button Styling */
+.nav-button:hover {
+  background-color: #ddd;
+  cursor: pointer;
 }
