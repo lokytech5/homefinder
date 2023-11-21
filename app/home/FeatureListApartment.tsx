@@ -4,10 +4,16 @@ import ApartmentCard from '../components/ApartmentCard'
 import useApartment from '../hooks/useApartment';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
+import { useRouter } from 'next/navigation';
 const FeatureListApartment = () => {
   const { data, error, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, getLatestApartmentsFromPages } = useApartment({ endpoint: '/apartment/latest' });
   const latestApartments = getLatestApartmentsFromPages(data?.pages || []);
-   
+
+  const router = useRouter();
+
+  const handleDetailsClick = (apartmentId: string) => {
+    router.push(`/apartment/${apartmentId}`)
+  }   
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorAlert message={error.message} />;
 
@@ -19,7 +25,12 @@ const FeatureListApartment = () => {
               <div className='flex flex-wrap justify-center mx-auto px-2 text-base-content'>
               {latestApartments.map((apartment, index) => (
            <div key={apartment._id} className="w-full md:w-1/2 lg:w-1/3 px-4 my-2">
-             <ApartmentCard id={apartment._id} title={apartment.type} description={apartment.description} image={apartment.images}/>
+             <ApartmentCard 
+             id={apartment._id} 
+             title={apartment.type} 
+             description={apartment.description} 
+             image={apartment.images}
+             onDetailsClick={() => handleDetailsClick(apartment._id)}/>
              </div>
               ))}
               </div>

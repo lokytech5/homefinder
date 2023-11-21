@@ -88,12 +88,18 @@ const RegisterPage = () => {
     }
    });
   } else if (userType === 'Agent') {
+    let formattedPhone = data.phone;
+
+    if(formattedPhone && !formattedPhone.startsWith('+234')) {
+      formattedPhone = '+234' + formattedPhone.slice(1);
+    }
+
     const agentData: RegisterAgentData = {
       username: data.username,
       email: data.email,
       password: data.password,
       userType: "Agent",
-      phone: data.phone || '',
+      phone: formattedPhone || '',
       agencyName: data.agencyName || '',
       address: data.address || '',
       age: data.age || 0,
