@@ -39,7 +39,6 @@ const useLoginUser = () => {
 
           },
           onError: (error: AxiosError<LoginErrorResponse>) => {
-             // Handle login error
         const errorMessage = error.response?.data?.errors 
         ? error.response.data.errors.map(e => e.msg).join(', ')
         : error.response?.data?.error ?? 'An unexpected error occurred';

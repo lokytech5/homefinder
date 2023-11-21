@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { LoginUserResponse, RegisterAgentData, RegisterAgentResponse, RegisterUserData } from "../types";
+import { LoginUserResponse, RegisterAgentData, RegisterUserData } from "../types";
 
 interface User {
     _id?: string;

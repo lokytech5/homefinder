@@ -25,9 +25,6 @@ const useRegisterAgent = (): UseMutationResult<RegisterAgentResponse, AxiosError
             },
             onSuccess: (response, userData) => {
               setAgent(userData, response.agentId);
-              console.log("userDetails", userData);
-              
-              console.log('Registration successful:', response);
             },
           onError: (error: AxiosError<ErrorResponse>) => {
             let errorMessage: string = error.message;

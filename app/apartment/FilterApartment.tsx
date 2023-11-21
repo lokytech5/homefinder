@@ -1,43 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import useSearchStore from '../components/store/useSearchStore'
 import { FaInfoCircle } from 'react-icons/fa';
 
 const FilterApartment = () => {
-    const { setSearchParams } = useSearchStore();
-    const { setSortParams } = useSearchStore();
+    const { setSearchParams, setSortParams } = useSearchStore();
     
     const [city, setCity] = useState('');
     const [bedrooms, setBedrooms] = useState<number | undefined>();
     const [type, setType] = useState('');
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | ''>('');
+    const [sortOrder, setLocalSortOrder] = useState('');
 
     const handleSearch = () => {
         setSearchParams({ city, bedrooms, type });    
     }
 
-    function isSortOrder(value: string): value is 'asc' | 'desc' {
-        return ['asc', 'desc'].includes(value);
-    }
-
     const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const value = e.target.value;
-
-        if (isSortOrder(value)) {
-            setSortOrder(value);
-            setSortParams({ sortOrder: value })
-        } else {
-            setSortOrder('');
-            setSortParams({});
-        }
+        const newSortOrder = e.target.value;
+        setLocalSortOrder(newSortOrder);
+    
+        // Convert empty string to undefined
+        const sortOrderForParams = newSortOrder === '' ? undefined : newSortOrder as 'asc' | 'desc';
+        setSortParams({ sortOrder: sortOrderForParams });
     };
+
+   
 
     const handleResetFilters = () => {
         setCity('');
         setBedrooms(undefined);
         setType('');
-        setSortOrder('');
-        setSortParams({});
         setSearchParams({});
+        setSortParams({});
     };
     
 
@@ -101,8 +94,8 @@ const FilterApartment = () => {
         </label>
 
         <select className="select select-bordered w-full mt-2 text-secondary-content"
-                value={sortOrder}
-                onChange={handleSortOrderChange}>
+               value={sortOrder}
+               onChange={handleSortOrderChange}>
             <option value=''>Select Order</option>
             <option value='asc'>Low to High</option>
             <option value='desc'>High to Low</option>

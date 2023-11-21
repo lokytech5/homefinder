@@ -23,16 +23,13 @@ const useRegisterUser = (): UseMutationResult<RegisterUserResponse, AxiosError<E
       },
       {
         onMutate: (userData) => {
-          // Return userData as context for use in onSuccess
           return userData;
         },
         onSuccess: (data, context) => {
-          // Use context here which is the userData
           setUser(context, data._id);
-          console.log('Registration successful:', data);
         },
         onError: (error: AxiosError<ErrorResponse>, context) => {
-            let errorMessage: string = error.message; // Default message
+            let errorMessage: string = error.message;
             if (error.response && error.response.data) {
                 if (error.response.data.error) {
                     errorMessage = error.response.data.error;
