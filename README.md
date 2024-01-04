@@ -1,34 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GeoHomeFinder Application
+
+## Introduction
+
+Welcome to the **GeoHomeFinder** application repository, a user-friendly web platform designed to simplify the process of finding and searching for apartments. Integrated with Google Maps, our application provides an intuitive and interactive experience for both potential renters and real estate agents.
+
+## Features
+
+- **Google Maps Integration**: Locate apartments on an interactive map.
+- **User Registration**: Two user roles - Normal Users and Agents.
+- **Agent Functionality**: Agents can upload images and details of houses.
+- **User Interactions**: Normal users can chat with agents directly within the application.
+- **Simple Interface**: Easy to use and accessible for all users.
+
+## Technology Stack
+
+- **Frontend**: Next.js with TypeScript
+- **Backend**: JavaScript
+- **Database**: MongoDB
+
+## User Roles
+
+- **Agent**: Upload house listings, manage properties, interact with renters.
+- **Normal User**: Search for apartments, view listings on a map, communicate with agents.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- A modern web browser.
+- Internet connection.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+No installation is required. Access the application directly through your web browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Usage
 
-## Learn More
+1. **Register/Login**: Sign up or log in as an Agent or Normal User.
+2. **Browse Listings**: Find apartments using the Google Map integration.
+3. **Agent Listing Management**: Agents can upload and manage property listings.
+4. **User-Agent Interaction**: Chat and interact directly through the application.
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Contributions are welcome to enhance GeoHomeFinder. Please see `CONTRIBUTING.md` for contribution guidelines.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
+GeoHomeFinder is licensed under the MIT License - see the `LICENSE` file for details.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+For more information, contact [support@geohomefinder.com](mailto:support@geohomefinder.com).
