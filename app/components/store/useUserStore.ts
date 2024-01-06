@@ -18,6 +18,7 @@ interface UserState {
     isEmailVerified: boolean;
     isAuthenticated: boolean;
     error: string | null;
+    loading: boolean;
     setUser: (userData: RegisterUserData, userId: string) => void;
     setAgent: (userData: RegisterAgentData, agentId: string) => void;
     setUserFromLogin: (userData: Omit<LoginUserResponse, 'token'>) => void;
@@ -34,6 +35,7 @@ const useUserStore = create<UserState>((set) => ({
     isEmailVerified: false,
     isAuthenticated: false,
     error: null,
+    loading:true,
     
     setUser:(userData: RegisterUserData, userId: string) => {
         const user: User = {
