@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { SearchParams, SearchResponse, } from '../components/types'
-import apiClient from '../components/service/api-client'
+import { apiClient } from '../components/service/api-client'
 
 const useSearchApartment = (searchParams: SearchParams) => {
 

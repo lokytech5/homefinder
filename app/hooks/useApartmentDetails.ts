@@ -1,5 +1,5 @@
 import { Apartment, SingleApartmentResponse } from '../components/types';
-import apiClient from '../components/service/api-client';
+import { apiClient } from '../components/service/api-client';
 import { useQuery } from '@tanstack/react-query';
 
 interface Props {

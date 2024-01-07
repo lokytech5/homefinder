@@ -119,3 +119,28 @@ export interface LoginUserResponse {
     userType: "User" | "Agent";
     token: string;
 }
+
+export interface SavedSearchRequest {
+    searchFilters: {
+        city: string;
+        bedrooms: number | undefined;
+        type: string;
+        amenities?: string[];
+    };
+    alertFrequency: string;
+}
+
+export interface SavedSearchData {
+    searchFilters: {
+        city: string;
+        bedrooms: number | undefined;
+        type: string;
+        amenities: string[];
+    };
+    alertFrequency: string;
+    _id: string;
+    createdAt: string;
+}
+
+export type SavedSearchResponse = SavedSearchData[];
+

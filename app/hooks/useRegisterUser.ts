@@ -2,7 +2,7 @@ import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import { RegisterUserData, RegisterUserResponse } from "../components/types";
 import { AxiosError } from "axios";
 import useUserStore from "../components/store/useUserStore";
-import apiClient from "../components/service/api-client";
+import { apiClient } from "../components/service/api-client";
 
 
 interface ErrorResponse {

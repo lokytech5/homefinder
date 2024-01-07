@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import useSearchStore from '../components/store/useSearchStore'
 import { FaInfoCircle } from 'react-icons/fa';
+import useSaveSearch from '../hooks/useSaveSearch';
+import { showToast } from '../components/ToastNotifier';
+import { SavedSearchRequest } from '../components/types';
 
 const FilterApartment = () => {
     const { setSearchParams, setSortParams } = useSearchStore();
@@ -10,8 +13,31 @@ const FilterApartment = () => {
     const [type, setType] = useState('');
     const [sortOrder, setLocalSortOrder] = useState('');
 
+    const saveSearch = useSaveSearch(); 
+    const [alertFrequency, setAlertFrequency] = useState('');
+
     const handleSearch = () => {
         setSearchParams({ city, bedrooms, type });    
+    }
+
+    const handleSaveSearch = () => {
+
+        if (!alertFrequency) {
+            showToast("Please select an alert frequency", 'error');
+            return;
+        }
+        
+        const searchFilters = { city, bedrooms, type };
+        if (city) searchFilters.city = city;
+        if (bedrooms) searchFilters.bedrooms = Number(bedrooms);
+        if (type) searchFilters.type = type;
+    
+        const searchCriteria: SavedSearchRequest = {
+            searchFilters,
+            alertFrequency
+        };
+    
+        saveSearch.mutate(searchCriteria);
     }
 
     const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -106,7 +132,30 @@ const FilterApartment = () => {
         <button className="btn btn-secondary w-full" onClick={handleResetFilters}>Reset All Filters</button>
     </div>
 </div>
-    
+
+{/* Dropdown or radio buttons for alert frequency */}
+<div className="flex flex-col items-center justify-center w-full h-52 bg-base-300 rounded-box p-4 space-y-4">
+    <div className="w-full max-w-xs md:w-full">
+    <label className="label">
+            <span className="text-md">Saved Search</span>
+        </label>
+               
+                <select value={alertFrequency} onChange={(e) => setAlertFrequency(e.target.value)} className="select select-bordered w-full text-secondary-content mt-4">
+                    <option value="">None</option>
+                    <option value="instant">Instant</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+
+            {/* Save Search Button */}
+            <div className="w-full max-w-xs">
+            <button className="btn btn-secondary w-full" onClick={handleSaveSearch}>
+                Save Search
+            </button>
+            </div>
+    </div>
 
     </div>
   )

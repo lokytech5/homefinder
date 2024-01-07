@@ -7,6 +7,7 @@ import Drawer from './Drawer'
 import useUserStore from '../store/useUserStore'
 import UserMenu from './UserMenu'
 import ThemeToggle from './ThemeToggle'
+import Alerts from './Alerts'
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -24,6 +25,7 @@ const Navbar = () => {
     </div>
          
           <ThemeToggle/>
+          <Alerts/>
          <DesktopMenu/> 
       <div className="flex-none">
       {isAuthenticated && <UserMenu />}
