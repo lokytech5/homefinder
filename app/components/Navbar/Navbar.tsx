@@ -8,7 +8,6 @@ import useUserStore from '../store/useUserStore'
 import UserMenu from './UserMenu'
 import ThemeToggle from './ThemeToggle'
 import Alerts from './Alerts'
-import { CiSaveDown2 } from "react-icons/ci";
 
 
 const Navbar = () => {
@@ -29,16 +28,16 @@ const Navbar = () => {
           <ThemeToggle/>
           <Alerts/>
       <div className="flex-none">
-      {isAuthenticated && (
+     
+  <DesktopMenu />
+
+  {isAuthenticated && (
     <>
       {/* Icon for Saved Searches - Consider using an appropriate icon */}
-      <button className="btn btn-ghost btn-circle" onClick={() => {}}>
-        <CiSaveDown2 size={20} className="hover:text-warning"/>
-      </button>
-      <DesktopMenu />
       <UserMenu />
     </>
   )}
+  
       </div>
     </div>
     </div>

@@ -14,13 +14,11 @@ const DesktopMenu = () => {
     <ul className="menu menu-horizontal px-1 no-underline">
       <li><Link href="/apartment">Apartment</Link></li>
 
-      {!isAuthenticated ? (
+      {!isAuthenticated && (
         <>
         <li><Link href="/registerUser">Register</Link></li>
         <li><Link href="/loginUser">Login</Link></li>       
         </>
-      ): (
-        <li> <button onClick={logout}> Logout</button></li>
       )}
       
     </ul>
