@@ -26,6 +26,9 @@ const UserMenu = () => {
             <li className="btn btn-ghost">
               <Link href={"/userProfile"}>Profile</Link>
             </li>
+            <li className="btn btn-ghost">
+              <Link href={"/savedSearches"}>Save Searches</Link>
+            </li>
             <li>
               <LogoutButton />
             </li>

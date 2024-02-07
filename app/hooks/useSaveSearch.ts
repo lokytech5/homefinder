@@ -3,7 +3,7 @@ import { showToast } from "../components/ToastNotifier";
 import { SavedSearchData, SavedSearchRequest, SavedSearchResponse } from "../components/types";
 import { useMutation } from "@tanstack/react-query";
 import useUserStore from "../components/store/useUserStore";
-import { authApiClient } from "../components/service/api-client";
+import { authApiClient, userApiClient } from "../components/service/api-client";
 
 export interface SavedSearchErrorResponse {
     error: string;
@@ -14,8 +14,10 @@ const useSaveSearch = () => {
     
     return useMutation<SavedSearchResponse, AxiosError<SavedSearchErrorResponse>, SavedSearchRequest>(
         (savedSearchData) => {
-            const dataWithUserId = { ...savedSearchData, userId }; 
-          return authApiClient.post<SavedSearchResponse>(`/savedSearches/${dataWithUserId}`)
+           if(!userId) {
+            throw new Error ("User Id is not available")
+           }
+          return userApiClient.post<SavedSearchResponse>(`/savedSearches/${userId}`, savedSearchData)
             .then(response => response.data);
         },
         {

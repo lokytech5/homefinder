@@ -16,13 +16,26 @@ const useLoginUser = () => {
     return useMutation<LoginUserResponse, AxiosError<LoginErrorResponse>, LoginUserData>(
         (loginData: LoginUserData) => {
           return apiClient.post<LoginUserResponse>('/auth', loginData)
-            .then(response => response.data);
+          .then(response => {
+            const { token, userType } = response.data;
+
+            // Store token based on user type
+            if (userType === "User") {
+                localStorage.setItem('userToken', token);
+                localStorage.setItem('userType', 'User');
+            } else if (userType === "Agent") {
+                localStorage.setItem('agentToken', token);
+                localStorage.setItem('userType', 'Agent');
+            }
+
+            return response.data;
+        });
         },
         {
           onSuccess: (data) => {
             const {setUserFromLogin, setAgentFromLogin } = useUserStore.getState();
 
-        localStorage.setItem('token', data.token);
+        // localStorage.setItem('token', data.token);
 
         const commonUserInfo = {
           _id:data._id,

@@ -124,7 +124,7 @@ export interface SavedSearchRequest {
     searchFilters: {
         city: string;
         bedrooms: number | undefined;
-        type: string;
+        type?: string;
         amenities?: string[];
     };
     alertFrequency: string;
@@ -143,4 +143,17 @@ export interface SavedSearchData {
 }
 
 export type SavedSearchResponse = SavedSearchData[];
+
+
+export interface AllSavedSearchData {
+    searchFilters: {
+      city: string;
+      type: string;
+    };
+    alertFrequency: string;
+    _id: string;
+    createdAt: string;
+  }
+  
+  export type AllSavedSearchResponse = AllSavedSearchData[];
 

@@ -4,9 +4,12 @@ import { FaInfoCircle } from 'react-icons/fa';
 import useSaveSearch from '../hooks/useSaveSearch';
 import { showToast } from '../components/ToastNotifier';
 import { SavedSearchRequest } from '../components/types';
+import useUserStore from '../components/store/useUserStore';
 
 const FilterApartment = () => {
     const { setSearchParams, setSortParams } = useSearchStore();
+    const { searchParams,  clearSearchParams } = useSearchStore();
+    const isAuthenticated = useUserStore((state) => state.isAuthenticated);
     
     const [city, setCity] = useState('');
     const [bedrooms, setBedrooms] = useState<number | undefined>();
@@ -21,23 +24,28 @@ const FilterApartment = () => {
     }
 
     const handleSaveSearch = () => {
+        const { city, bedrooms, type } = searchParams;
 
+        console.log("City: ", city);
         if (!alertFrequency) {
             showToast("Please select an alert frequency", 'error');
             return;
         }
+
+        if (!city) {
+            showToast("City is required", 'error');
+            return;
+        }
+
         
-        const searchFilters = { city, bedrooms, type };
-        if (city) searchFilters.city = city;
-        if (bedrooms) searchFilters.bedrooms = Number(bedrooms);
-        if (type) searchFilters.type = type;
-    
         const searchCriteria: SavedSearchRequest = {
-            searchFilters,
+            searchFilters: { city, bedrooms, type },
             alertFrequency
         };
     
         saveSearch.mutate(searchCriteria);
+
+        clearSearchParams();
     }
 
     const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -112,28 +120,9 @@ const FilterApartment = () => {
     </div>
 </div>
 
-    {/* Filter by Price */}
-    <div className="flex flex-col items-center justify-center w-full h-52 bg-base-300 rounded-box p-4 space-y-4">
-    <div className="w-full max-w-xs md:w-full">
-        <label className="label">
-            <span className="text-md">Sort by Price</span>
-        </label>
-
-        <select className="select select-bordered w-full mt-2 text-secondary-content"
-               value={sortOrder}
-               onChange={handleSortOrderChange}>
-            <option value=''>Select Order</option>
-            <option value='asc'>Low to High</option>
-            <option value='desc'>High to Low</option>
-        </select>
-    </div>
-
-    <div className="w-full max-w-xs">
-        <button className="btn btn-secondary w-full" onClick={handleResetFilters}>Reset All Filters</button>
-    </div>
-</div>
-
 {/* Dropdown or radio buttons for alert frequency */}
+{isAuthenticated && (
+          <>
 <div className="flex flex-col items-center justify-center w-full h-52 bg-base-300 rounded-box p-4 space-y-4">
     <div className="w-full max-w-xs md:w-full">
     <label className="label">
@@ -156,6 +145,30 @@ const FilterApartment = () => {
             </button>
             </div>
     </div>
+          
+          </>
+        )}
+
+    {/* Filter by Price */}
+    <div className="flex flex-col items-center justify-center w-full h-52 bg-base-300 rounded-box p-4 space-y-4">
+    <div className="w-full max-w-xs md:w-full">
+        <label className="label">
+            <span className="text-md">Sort by Price</span>
+        </label>
+
+        <select className="select select-bordered w-full mt-2 text-secondary-content"
+               value={sortOrder}
+               onChange={handleSortOrderChange}>
+            <option value=''>Select Order</option>
+            <option value='asc'>Low to High</option>
+            <option value='desc'>High to Low</option>
+        </select>
+    </div>
+
+    <div className="w-full max-w-xs">
+        <button className="btn btn-secondary w-full" onClick={handleResetFilters}>Reset All Filters</button>
+    </div>
+</div>
 
     </div>
   )

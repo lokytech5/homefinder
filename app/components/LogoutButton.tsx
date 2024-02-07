@@ -8,9 +8,12 @@ const LogoutButton = () => {
 
   const handleLogout = () => {
     logout();
-    localStorage.removeItem("user");
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('agentToken');
+    localStorage.removeItem('userType');
     localStorage.removeItem('userAvatar');
     router.push("/loginUser");
+    // set({ user: null, isAuthenticated: false, isPhoneVerified: false, isEmailVerified: false, error: null});
   };
   return (
     <button onClick={handleLogout} className="btn btn-ghost">
