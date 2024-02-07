@@ -5,7 +5,7 @@ import useUserStore from '../store/useUserStore'
 const Alerts = () => {
     const isAuthenticated = useUserStore((state) => state.isAuthenticated)
   return (
-    <div className="dropdown dropdown-end text-secondary-content mr-2">
+    <div className="dropdown dropdown-end text-secondary-content ml-4">
     <label tabIndex={0} className="btn btn-ghost btn-circle">
         <FaBell size={20} className="hover:text-warning" /> {/* Increase size and add hover effect */}
       </label>

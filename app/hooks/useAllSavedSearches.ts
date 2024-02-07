@@ -24,9 +24,6 @@ const useAllSavedSearches = () => {
             return response.data;
         },
         {
-            onSuccess: () => {
-                showToast("Successfully saved your search", 'success');
-            },
             onError: (error: AxiosError<SavedSearchErrorResponse>) => {
                 const errorMessage = error.response?.data.error || 'An error occurred';
                 showToast(errorMessage, 'error');
