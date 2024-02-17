@@ -155,5 +155,50 @@ export interface AllSavedSearchData {
     createdAt: string;
   }
   
-  export type AllSavedSearchResponse = AllSavedSearchData[];
+export type AllSavedSearchResponse = AllSavedSearchData[];
+
+
+interface CommonAttributes {
+    _id: string;
+    username: string;
+    email: string;
+    isAdmin: boolean;
+    userType: 'Agent' | 'User';
+    createdAt: string;
+  }
+  
+export interface Agent extends CommonAttributes {
+    analytics: {
+      views: number;
+      clicks: number;
+      leads: number;
+    };
+    isPhoneVerified: boolean;
+    listingsCount: number;
+    hasPaid: boolean;
+    phone: string;
+    agencyName: string;
+    address: string;
+    age: number;
+    apartment: string[];
+  }
+  
+export interface User extends CommonAttributes {
+    isEmailVerified: boolean;
+    favorites: any[]; // Replace 'any' with a more specific type if available
+    alerts: any[]; // Same as above
+    contactHistory: any[]; // Same as above
+    savedSearches: {
+      searchFilters: {
+        city: string;
+        type: string;
+      };
+      alertFrequency: string;
+      _id: string;
+      createdAt: string;
+    }[];
+  }
+  
+export type ProfileData = Agent | User;
+  
 
