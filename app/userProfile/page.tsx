@@ -4,12 +4,21 @@ import useUserProfile from '../hooks/useUserProfile';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
 import { FaMailBulk, FaPhone, FaCheck, FaUserCircle } from 'react-icons/fa';
-import { Agent, User } from '../components/types';
+import { Agent, Apartment, User } from '../components/types';
+import useApartmentsByAgent from '../hooks/useApartmentsByAgent';
+import useUserStore from '../components/store/useUserStore';
+import ApartmentCard from '../components/ApartmentCard';
 
   
 
 const UserProfile = () => {
     const { data: profileData, isLoading, error } = useUserProfile();
+    const user = useUserStore((state) => state.user);
+
+    const { data: apartments, isLoading: apartmentsLoading, error: apartmentsError } = useApartmentsByAgent(user?.userType === 'Agent' ? user._id : undefined);
+
+
+
 
     if (isLoading) return <LoadingSpinner/>;
     if (error) return <ErrorAlert message={error.message}/>;
@@ -24,7 +33,7 @@ const UserProfile = () => {
                 <h2 className="text-lg leading-6 font-medium text-gray-900">
                     {profileData.username}'s Profile
                 </h2>
-                {isUser(profileData) ? (
+                 {isUser(profileData) ? (
                         <FaCheck className={`h-6 w-6 ${profileData.isEmailVerified ? 'text-green-500' : 'text-gray-400'}`} aria-hidden="true" />
                     ) : (
                         <FaCheck className="h-6 w-6 text-gray-400" aria-hidden="true" />
@@ -53,26 +62,43 @@ const UserProfile = () => {
                                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{profileData.agencyName}</dd>
                             </div>
                             {/* Additional agent-specific sections */}
+
+                            {isAgent(profileData) && apartments.data && (
+                    <div className="mt-6">
+                        <h2 className="text-xl font-bold">Listed Apartments</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {apartments.map((apartment: Apartment) => (
+                                <ApartmentCard
+                                    key={apartment._id}
+                                    id={apartment._id}
+                                    title={apartment.type}
+                                    description={apartment.description}
+                                    image={apartment.images} // Assuming the 
+                                    onDetailsClick={() => {/* Implement navigation to detailed view */}}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
                         </>
                     )}
                     {isUser(profileData) && profileData.savedSearches && (
-    <div className="bg-white px-4 py-5 sm:gap-4 sm:px-6 text-secondary-content">
-        <h3 className="text-sm font-medium text-gray-500 flex items-center mb-4">
-            <FaUserCircle className="h-5 w-5 mr-1 text-gray-400" aria-hidden="true" />
-            Saved Searches
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {profileData.savedSearches.map((search, index) => (
-                <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:bg-gray-100 transition duration-150 ease-in-out">
-                    <h4 className="font-semibold text-lg mb-2">Search {index + 1}</h4>
-                    <p><span className="font-medium">City:</span> {search.searchFilters.city}</p>
-                    <p><span className="font-medium">Type:</span> {search.searchFilters.type || 'N/A'}</p>
-                    <p><span className="font-medium">Alert Frequency:</span> {search.alertFrequency}</p>
-                </div>
-            ))}
-        </div>
-    </div>
-)}
+                        <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt className="text-sm font-medium text-gray-500 flex items-center">
+                                <FaUserCircle className="h-5 w-5 mr-1 text-gray-400" aria-hidden="true" />
+                                Saved Searches
+                            </dt>
+                            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                {profileData.savedSearches.map((search, index) => (
+                                    <div key={index} className="mt-2">
+                                        <p>City: {search.searchFilters.city}</p>
+                                        <p>Type: {search.searchFilters.type || 'N/A'}</p>
+                                        <p>Alert Frequency: {search.alertFrequency}</p>
+                                    </div>
+                                ))}
+                            </dd>
+                        </div>
+                    )}
                 </dl>
             </div>
         </div>

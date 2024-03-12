@@ -1,5 +1,10 @@
 # GeoHomeFinder Application
 
+![homePage](public/images/Screenshot1.png)
+![Registration Page](public/images/Screenshot4.png)
+![Search Page](public/images/Screenshot2.png)
+![Details Page](public/images/Screenshot3.png)
+
 ## Introduction
 
 Welcome to the **GeoHomeFinder** application repository, a user-friendly web platform designed to simplify the process of finding and searching for apartments. Integrated with Google Maps, our application provides an intuitive and interactive experience for both potential renters and real estate agents.
