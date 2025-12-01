@@ -2,6 +2,7 @@ import React from 'react'
 import { Apartment } from '../components/types'
 import { useRouter } from 'next/navigation';
 import GoogleMapComponent from '../components/GoogleMapComponent';
+import Image from 'next/image';
 
 interface Props {
   apartment: Apartment;
@@ -29,7 +30,9 @@ const ApartmentDetails = ({apartment}: Props) => {
     <div className="carousel w-full h-64 md:h-96">
         {apartment.images.map((image, index) => (
           <div id={`item${index}`} key={index} className="carousel-item w-full">
-            <img src={image} alt={`Apartment Image ${index + 1}`} className="w-full" />
+
+            <Image src={image} alt={`Apartment Image ${index + 1}`} className=" object-fill" fill />
+            <img  />
           </div>
         ))}
       </div>
